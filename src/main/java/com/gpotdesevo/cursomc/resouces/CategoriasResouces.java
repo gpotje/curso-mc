@@ -1,31 +1,29 @@
 package com.gpotdesevo.cursomc.resouces;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gpotdesevo.cursomc.entities.Categoria;
+import com.gpotdesevo.cursomc.service.CategoriaServices;
 
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriasResouces {
 	
-	@RequestMapping(value = "all")
-	@GetMapping
-	public List<Categoria> listar(){
-		
-		Categoria c1 =  new Categoria(1, "item1");
-		Categoria c2 =  new Categoria(1, "item2");
-		
-		List<Categoria> list =  new ArrayList<>();
-		list.add(c1);
-		list.add(c2);
-		
-		return list;
-		
+	@Autowired
+	private CategoriaServices categoriaServices;
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id){
+		 Categoria obj =  categoriaServices.find(id);
+		 return ResponseEntity.ok().body(obj);
 	}
-
+	
+	
+	
+	
 }
