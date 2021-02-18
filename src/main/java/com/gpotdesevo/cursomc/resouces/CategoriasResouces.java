@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gpotdesevo.cursomc.entities.Categoria;
 import com.gpotdesevo.cursomc.service.CategoriaServices;
+import com.gpotdesevo.cursomc.service.exception.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -20,6 +21,11 @@ public class CategoriasResouces {
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id){
 		 Categoria obj =  categoriaServices.find(id);
+		 if(obj == null) {
+			 throw new ObjectNotFoundException("Objeto não encontrado! Id:" + id
+			 		+   "Tipo:"  + Categoria.class.getName());
+		 }
+		 
 		 return ResponseEntity.ok().body(obj);
 	}
 	
